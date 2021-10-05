@@ -1,0 +1,10 @@
+version: 2.1
+
+description: >
+  Implement slack orb notification using a file as body origin
+  https://circleci.com/developer/orbs/orb/circleci/slack
+
+# This information will be displayed in the orb registry and is not mandatory.
+display:
+  home_url: "https://www.github.com/jmanart/slack-from-file-orb"
+  source_url: "https://www.github.com/jmanart/slack-from-file-orb"

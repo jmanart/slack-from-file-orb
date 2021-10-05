@@ -1,0 +1,36 @@
+description: Notify a Slack channel reading the body from a file.
+
+parameters:
+  body:
+    description: |
+      Filename to read the body of the message from.
+    type: string
+    default: ""
+  mentions:
+    description: |
+      Exports to the "$SLACK_PARAM_MENTIONS" environment variable for use in templates.
+      Mention users via the @ symbol: "@USER"
+      If the username contains a space, the Slack ID must be used with angled brackets: "<@U8XXXXXXX>"
+    type: string
+    default: ""
+  channel:
+    description: |
+      Select which channel in which to post to. Channel name or ID will work. You may include a comma separated list of channels if you wish to post to multiple channels at once. Set the "SLACK_DEFAULT_CHANNEL" environment variable for the default channel.
+    type: string
+    default: $SLACK_DEFAULT_CHANNEL
+  ignore_errors:
+      description: |
+        Ignore errors posting to Slack.
+        Disable to catch initial setup errors. Re-enable to prevent Slack errors from affecting your pipeline.
+      type: boolean
+      default: true
+steps:
+  - run:
+      when: always
+      name: Slack - Sending Notification File
+      environment:
+        SLACK_PARAM_MENTIONS: "<<parameters.mentions>>"
+        SLACK_PARAM_CHANNEL: "<<parameters.channel>>"
+        SLACK_PARAM_IGNORE_ERRORS: "<<parameters.ignore_errors>>"
+        SLACK_BODY_MESSAGE_FILENAME : "<<parameters.body>>"
+      command: <<include(scripts/notify.sh)>>
